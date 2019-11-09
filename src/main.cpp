@@ -4,7 +4,8 @@
 #include <thread>
 #include <exception>
 #include <atomic>
-//gmsv_antifreeze_linux.dll
+
+unsigned int build = 0;
 std::atomic<std::time_t> srvrtime = ATOMIC_VAR_INIT(0);
 std::atomic<bool> flag = ATOMIC_VAR_INIT(true);
 
@@ -53,15 +54,12 @@ GMOD_MODULE_OPEN()
     LUA->PushString( "WatchDogStop" );
     LUA->PushCFunction(WatchDogStop);
     LUA->SetTable( -3 );
-	LUA->PushString( "antifreeze_version" );
+	LUA->PushString( "antifreeze" );
 	LUA->CreateTable();
-	LUA->PushString( "major" );
+	LUA->PushString( "version" );
 	LUA->PushNumber( 1 );
 	LUA->SetTable( -3 );
-	LUA->PushString( "minor" );
-	LUA->PushNumber( 0 );
-	LUA->SetTable( -3 );
-	LUA->PushString( "rev" );
+	LUA->PushString( "build" );
 	LUA->PushNumber( 0 );
 	LUA->SetTable( -3 );
 	LUA->SetTable( -3 );
