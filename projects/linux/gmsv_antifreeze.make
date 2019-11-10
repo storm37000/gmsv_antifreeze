@@ -46,8 +46,8 @@ else ifeq ($(config),release)
 TARGETDIR = bin/Release
 TARGET = $(TARGETDIR)/gmsv_antifreeze_linux.dll
 OBJDIR = obj/Release
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -march=native
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -march=native
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -flto -shared -Wl,-soname=gmsv_antifreeze_linux.dll -s
 
 else

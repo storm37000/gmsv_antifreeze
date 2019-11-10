@@ -23,7 +23,6 @@ project "gmsv_antifreeze"
         optimize "Speed"
 		staticruntime "Off"
 		floatingpoint "Fast"
-		buildoptions {"-march=native"}
 		flags { "LinkTimeOptimization","NoFramePointer" }
 
     files
