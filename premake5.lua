@@ -7,17 +7,19 @@ project "gmsv_antifreeze"
     architecture "x86"
     language     "C++"
     includedirs  "../include/"
-    targetdir    "build"
-    symbols      "Off"
+	targetprefix ""
+	targetextension ".dll"
     
     if os.is( "windows" ) then targetsuffix "_win32" end
     if os.is( "macosx" )  then targetsuffix "_osx"   end
     if os.is( "linux" )   then targetsuffix "_linux" end
 
     configuration "Debug"
+		symbols	"On"
         optimize "Debug"
 
     configuration "Release"
+		symbols	"Off"
         optimize "Speed"
 		staticruntime "Off"
 		floatingpoint "Fast"
