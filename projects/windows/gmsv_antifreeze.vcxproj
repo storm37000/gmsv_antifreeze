@@ -94,7 +94,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>bin\Release64\</OutDir>
     <IntDir>obj\Release64\</IntDir>
-    <TargetName>gmsv_antifreeze_win32</TargetName>
+    <TargetName>gmsv_antifreeze_win64</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -108,7 +108,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\Debug64\</OutDir>
     <IntDir>obj\Debug64\</IntDir>
-    <TargetName>gmsv_antifreeze_win32</TargetName>
+    <TargetName>gmsv_antifreeze_win64</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,7 +155,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>bin\Release64\gmsv_antifreeze_win32.lib</ImportLibrary>
+      <ImportLibrary>bin\Release64\gmsv_antifreeze_win64.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -184,7 +184,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>bin\Debug64\gmsv_antifreeze_win32.lib</ImportLibrary>
+      <ImportLibrary>bin\Debug64\gmsv_antifreeze_win64.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

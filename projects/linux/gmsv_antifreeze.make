@@ -44,11 +44,11 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -flto -shared -Wl,-soname=gmsv_antif
 
 else ifeq ($(config),release64)
 TARGETDIR = bin/Release64
-TARGET = $(TARGETDIR)/gmsv_antifreeze_linux.dll
+TARGET = $(TARGETDIR)/gmsv_antifreeze_linux64.dll
 OBJDIR = obj/Release64
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse3
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse3 -std=c++11
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -flto -shared -Wl,-soname=gmsv_antifreeze_linux.dll -s
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -flto -shared -Wl,-soname=gmsv_antifreeze_linux64.dll -s
 
 else ifeq ($(config),debug)
 TARGETDIR = bin/Debug
@@ -60,11 +60,11 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -shared -Wl,-soname=gmsv_antifreeze_
 
 else ifeq ($(config),debug64)
 TARGETDIR = bin/Debug64
-TARGET = $(TARGETDIR)/gmsv_antifreeze_linux.dll
+TARGET = $(TARGETDIR)/gmsv_antifreeze_linux64.dll
 OBJDIR = obj/Debug64
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -Og -fPIC -g -msse3
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -Og -fPIC -g -msse3 -std=c++11
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=gmsv_antifreeze_linux.dll
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=gmsv_antifreeze_linux64.dll
 
 else
   $(error "invalid configuration $(config)")
