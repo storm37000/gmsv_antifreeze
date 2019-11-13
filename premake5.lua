@@ -1,11 +1,13 @@
 workspace "gmsv_antifreeze"
-    configurations { "Debug", "Release" }
+    configurations { "Debug", "Debug64", "Release", "Release64" }
     location ( "projects/" .. os.get() )
 
 project "gmsv_antifreeze"
     kind         "SharedLib"
-    architecture "x86"
     language     "C++"
+	cppdialect	"C++11"
+	editandcontinue "Off"
+	vectorextensions "SSE3"
     includedirs  "../include/"
 	targetprefix ""
 	targetextension ".dll"
@@ -15,10 +17,25 @@ project "gmsv_antifreeze"
     if os.is( "linux" )   then targetsuffix "_linux" end
 
     configuration "Debug"
+		architecture "x86"
+		symbols	"On"
+        optimize "Debug"
+
+    configuration "Debug64"
+		architecture "x86_64"
 		symbols	"On"
         optimize "Debug"
 
     configuration "Release"
+		architecture "x86"
+		symbols	"Off"
+        optimize "Speed"
+		staticruntime "Off"
+		floatingpoint "Fast"
+		flags { "LinkTimeOptimization","NoFramePointer" }
+
+    configuration "Release64"
+		architecture "x86_64"
 		symbols	"Off"
         optimize "Speed"
 		staticruntime "Off"
