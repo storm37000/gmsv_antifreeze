@@ -8,11 +8,17 @@ ifndef verbose
   SILENT = @
 endif
 
-ifeq ($(config),debug)
+ifeq ($(config),release)
+  gmsv_antifreeze_config = release
+
+else ifeq ($(config),release64)
+  gmsv_antifreeze_config = release64
+
+else ifeq ($(config),debug)
   gmsv_antifreeze_config = debug
 
-else ifeq ($(config),release)
-  gmsv_antifreeze_config = release
+else ifeq ($(config),debug64)
+  gmsv_antifreeze_config = debug64
 
 else
   $(error "invalid configuration $(config)")
@@ -37,8 +43,10 @@ help:
 	@echo "Usage: make [config=name] [target]"
 	@echo ""
 	@echo "CONFIGURATIONS:"
-	@echo "  debug"
 	@echo "  release"
+	@echo "  release64"
+	@echo "  debug"
+	@echo "  debug64"
 	@echo ""
 	@echo "TARGETS:"
 	@echo "   all (default)"

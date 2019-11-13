@@ -1,5 +1,5 @@
 workspace "gmsv_antifreeze"
-    configurations { "Debug", "Debug64", "Release", "Release64" }
+    configurations { "Release", "Release64", "Debug", "Debug64" }
     location ( "projects/" .. os.get() )
 
 project "gmsv_antifreeze"
