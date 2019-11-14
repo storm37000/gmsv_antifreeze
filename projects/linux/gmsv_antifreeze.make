@@ -79,12 +79,7 @@ endif
 
 OBJECTS :=
 
-ifeq ($(config),release64)
 OBJECTS += $(OBJDIR)/main.o
-
-else
-  $(error "invalid configuration $(config)")
-endif
 
 # Rules
 # #############################################
@@ -146,14 +141,9 @@ endif
 # File Rules
 # #############################################
 
-ifeq ($(config),release64)
 $(OBJDIR)/main.o: ../../src/main.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-
-else
-  $(error "invalid configuration $(config)")
-endif
 
 -include $(OBJECTS:%.o=%.d)
 ifneq (,$(PCH))

@@ -1,37 +1,42 @@
 workspace "gmsv_antifreeze"
-    configurations { "Release", "Release64", "Debug", "Debug64" }
-    location ( "projects/" .. os.get() )
+	configurations { "Release", "Release64", "Debug", "Debug64" }
+	location ( "projects/" .. os.get() )
 
 project "gmsv_antifreeze"
-    kind         "SharedLib"
-    language     "C++"
+	kind         "SharedLib"
+	language     "C++"
 	cppdialect	"C++11"
 	editandcontinue "Off"
 	vectorextensions "SSE3"
-    includedirs  "../include/"
+	includedirs  "../include/"
 	targetprefix ""
 	targetextension ".dll"
-    
-    configuration "Debug"
+	files
+	{
+		"src/**.*",
+		"../include/**.*"
+	}
+	
+	configuration "Debug"
 		architecture "x86"
 		symbols	"On"
-        optimize "Debug"
+		optimize "Debug"
 		if os.is( "windows" ) then targetsuffix "_win32" end
 		if os.is( "macosx" )  then targetsuffix "_osx"   end
 		if os.is( "linux" )   then targetsuffix "_linux" end
 
-    configuration "Debug64"
+	configuration "Debug64"
 		architecture "x86_64"
 		symbols	"On"
-        optimize "Debug"
+		optimize "Debug"
 		if os.is( "windows" ) then targetsuffix "_win64" end
 		if os.is( "macosx" )  then targetsuffix "_osx64"   end
 		if os.is( "linux" )   then targetsuffix "_linux64" end
 
-    configuration "Release"
+	configuration "Release"
 		architecture "x86"
 		symbols	"Off"
-        optimize "Speed"
+		optimize "Speed"
 		staticruntime "Off"
 		floatingpoint "Fast"
 		flags { "LinkTimeOptimization","NoFramePointer" }
@@ -39,19 +44,13 @@ project "gmsv_antifreeze"
 		if os.is( "macosx" )  then targetsuffix "_osx"   end
 		if os.is( "linux" )   then targetsuffix "_linux" end
 
-    configuration "Release64"
+	configuration "Release64"
 		architecture "x86_64"
 		symbols	"Off"
-        optimize "Speed"
+		optimize "Speed"
 		staticruntime "Off"
 		floatingpoint "Fast"
 		flags { "LinkTimeOptimization","NoFramePointer" }
 		if os.is( "windows" ) then targetsuffix "_win64" end
 		if os.is( "macosx" )  then targetsuffix "_osx64"   end
 		if os.is( "linux" )   then targetsuffix "_linux64" end
-
-    files
-    {
-        "src/**.*",
-        "../include/**.*"
-    }
