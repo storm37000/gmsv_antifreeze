@@ -6,21 +6,21 @@
 #include <atomic>
 
 unsigned int build = 0;
-std::atomic<std::time_t> srvrtime = ATOMIC_VAR_INIT(0);
-std::atomic<bool> flag = ATOMIC_VAR_INIT(true);
+std::atomic<std::time_t> srvrtime (0);
+std::atomic<bool> flag (true);
 
 void foo() 
 {
 	unsigned short int timeout = 0;
-    while(flag.load()){
+    while(flag){
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        if(srvrtime.load() >= (std::time(nullptr))-2){
+        if(srvrtime >= (std::time(nullptr))-2){
     		if (timeout != 0){
 				timeout = 0;
     			std::cout << "Server caught back up!\n";
     		}
         }else{
-            if(srvrtime.load() != 0){
+            if(srvrtime != 0){
                 timeout++;
                 std::cout << "Server is behind! (" << timeout << ")\n";
                 if(timeout == 60){
@@ -35,15 +35,13 @@ std::thread t1(foo);
 LUA_FUNCTION( WatchDogPing )
 {
 	srvrtime = std::time(nullptr);
-	LUA->PushNil();
-    return 1;
+    return 0;
 }
 LUA_FUNCTION( WatchDogStop )
 {
 	flag = false;
 	t1.join();
-	LUA->PushNil();
-    return 1;
+    return 0;
 }
 GMOD_MODULE_OPEN()
 {
@@ -60,7 +58,7 @@ GMOD_MODULE_OPEN()
 	LUA->PushNumber( 1 );
 	LUA->SetTable( -3 );
 	LUA->PushString( "build" );
-	LUA->PushNumber( 0 );
+	LUA->PushNumber( build );
 	LUA->SetTable( -3 );
 	LUA->SetTable( -3 );
 	LUA->Pop(1);
