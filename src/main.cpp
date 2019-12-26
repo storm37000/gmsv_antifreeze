@@ -47,9 +47,9 @@ GMOD_MODULE_OPEN()
 {
 	LUA->PushSpecial(GarrysMod::Lua::SPECIAL_GLOB );// Push global table
 	LUA->CreateTable();
-	LUA->PushInteger( 1 );
+	LUA->PushNumber( 1 );
 	LUA->SetField( -2, "version" );
-	LUA->PushInteger( build );
+	LUA->PushNumber( build );
 	LUA->SetField( -2, "build" );
 	LUA->PushCFunction(WatchDogStop);
 	LUA->SetField( -2, "WatchdogStop" );
@@ -57,8 +57,8 @@ GMOD_MODULE_OPEN()
 	LUA->GetField(-1, "timer");
 	LUA->GetField(-1, "Create");
 	LUA->PushString("antifreeze_watchdog");
-	LUA->PushInteger(1);
-	LUA->PushInteger(0);
+	LUA->PushNumber(1);
+	LUA->PushNumber(0);
 	LUA->PushCFunction(WatchDogPing);
 	LUA->Call(4, 0);
 	LUA->Pop(1);
