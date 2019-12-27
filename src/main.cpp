@@ -61,7 +61,7 @@ GMOD_MODULE_OPEN()
 	LUA->PushNumber(0);
 	LUA->PushCFunction(WatchDogPing);
 	LUA->Call(4, 0);
-	LUA->Pop(1);
+	LUA->Pop(2);
 	return 0;
 }
 GMOD_MODULE_CLOSE()
