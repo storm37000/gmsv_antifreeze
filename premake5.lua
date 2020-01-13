@@ -11,6 +11,10 @@ project "gmsv_antifreeze"
 	includedirs  "../include/"
 	targetprefix ""
 	targetextension ".dll"
+	staticruntime "Off"
+	floatingpoint "Fast"
+	buildoptions{ "-fPIC" }
+	linkoptions{ "-fPIC" }
 	files
 	{
 		"src/**.*",
@@ -37,9 +41,8 @@ project "gmsv_antifreeze"
 		architecture "x86"
 		symbols	"Off"
 		optimize "Speed"
-		staticruntime "Off"
-		floatingpoint "Fast"
-		flags { "LinkTimeOptimization","NoFramePointer" }
+		omitframepointer "On"
+		flags { "LinkTimeOptimization" }
 		if os.is( "windows" ) then targetsuffix "_win32" end
 		if os.is( "macosx" )  then targetsuffix "_osx"   end
 		if os.is( "linux" )   then targetsuffix "_linux" end
@@ -48,9 +51,8 @@ project "gmsv_antifreeze"
 		architecture "x86_64"
 		symbols	"Off"
 		optimize "Speed"
-		staticruntime "Off"
-		floatingpoint "Fast"
-		flags { "LinkTimeOptimization","NoFramePointer" }
+		omitframepointer "On"
+		flags { "LinkTimeOptimization" }
 		if os.is( "windows" ) then targetsuffix "_win64" end
 		if os.is( "macosx" )  then targetsuffix "_osx64"   end
 		if os.is( "linux" )   then targetsuffix "_linux64" end
