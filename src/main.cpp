@@ -5,7 +5,6 @@
 #include <exception>
 #include <atomic>
 
-unsigned int build = 0;
 std::atomic<std::time_t> srvrtime (0);
 std::atomic<bool> flag (true);
 
@@ -47,9 +46,9 @@ GMOD_MODULE_OPEN()
 {
 	LUA->PushSpecial(GarrysMod::Lua::SPECIAL_GLOB );// Push global table
 	LUA->CreateTable();
-	LUA->PushNumber( 1 );
+	LUA->PushNumber(1);
 	LUA->SetField( -2, "version" );
-	LUA->PushNumber( build );
+	LUA->PushNumber(0);//replace_build_number_here_automatic!
 	LUA->SetField( -2, "build" );
 	LUA->PushCFunction(WatchDogStop);
 	LUA->SetField( -2, "WatchdogStop" );
