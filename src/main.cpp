@@ -6,12 +6,12 @@
 #include <atomic>
 
 std::atomic<std::time_t> srvrtime (0);
-std::atomic<bool> flag (true);
+unsigned short killtime = 60;
 
 void foo() 
 {
-	unsigned short int timeout = 0;
-	while(flag){
+	unsigned short timeout = 0;
+	while(true){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
@@ -22,7 +22,7 @@ void foo()
 			if(srvrtime != 0){
 				timeout++;
 				std::cout << "Server is behind! (" << timeout << ")\n";
-				if(timeout == 60){
+				if(timeout == killtime){
 					std::cout << "Server Frozen! killing process...\n";
 					throw std::exception();
 				}
@@ -38,8 +38,12 @@ LUA_FUNCTION( WatchDogPing )
 }
 LUA_FUNCTION( WatchDogStop )
 {
-	flag = false;
 	t1.join();
+	return 0;
+}
+LUA_FUNCTION( SetTimeout )
+{
+	killtime = static_cast<unsigned short>( LUA->CheckNumber( 1 ) )
 	return 0;
 }
 GMOD_MODULE_OPEN()
@@ -52,6 +56,8 @@ GMOD_MODULE_OPEN()
 	LUA->SetField( -2, "build" );
 	LUA->PushCFunction(WatchDogStop);
 	LUA->SetField( -2, "WatchdogStop" );
+	LUA->PushCFunction(SetTimeout);
+	LUA->SetField( -2, "SetTimeout" );
 	LUA->SetField( -2, "antifreeze" );
 	LUA->GetField(-1, "timer");
 	LUA->GetField(-1, "Create");
@@ -65,7 +71,8 @@ GMOD_MODULE_OPEN()
 }
 GMOD_MODULE_CLOSE()
 {
-	flag = false;
+	LUA->PushNil();
+	LUA->SetField( GarrysMod::Lua::INDEX_GLOBAL, "antifreeze" );
 	t1.join();
 	return 0;
 }
