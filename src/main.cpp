@@ -7,7 +7,7 @@
 
 std::atomic<std::time_t> srvrtime (0);
 std::atomic<bool> flag (true);
-unsigned short killtime = 60;
+std::atomic<unsigned short> killtime (60);
 
 void foo() 
 {
@@ -74,8 +74,8 @@ GMOD_MODULE_OPEN()
 GMOD_MODULE_CLOSE()
 {
 	flag = false;
+	t1.join();
 	LUA->PushNil();
 	LUA->SetField( GarrysMod::Lua::SPECIAL_GLOB, "antifreeze" );
-	t1.join();
 	return 0;
 }
