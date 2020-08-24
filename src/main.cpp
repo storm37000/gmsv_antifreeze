@@ -6,12 +6,13 @@
 #include <atomic>
 
 std::atomic<std::time_t> srvrtime (0);
+bool flag = true;
 unsigned short killtime = 60;
 
 void foo() 
 {
 	unsigned short timeout = 0;
-	while(true){
+	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
@@ -38,6 +39,7 @@ LUA_FUNCTION( WatchDogPing )
 }
 LUA_FUNCTION( WatchDogStop )
 {
+	flag = false;
 	t1.join();
 	return 0;
 }
@@ -71,6 +73,7 @@ GMOD_MODULE_OPEN()
 }
 GMOD_MODULE_CLOSE()
 {
+	flag = false;
 	LUA->PushNil();
 	LUA->SetField( GarrysMod::Lua::SPECIAL_GLOB, "antifreeze" );
 	t1.join();
