@@ -6,7 +6,7 @@
 #include <atomic>
 
 std::atomic<std::time_t> srvrtime (0);
-bool flag = true;
+std::atomic<bool> flag (true);
 unsigned short killtime = 60;
 
 void foo() 
