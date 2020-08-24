@@ -48,7 +48,7 @@ LUA_FUNCTION( SetTimeout )
 }
 GMOD_MODULE_OPEN()
 {
-	LUA->PushSpecial(GarrysMod::Lua::SPECIAL_GLOB );// Push global table
+	LUA->PushSpecial(GarrysMod::Lua::SPECIAL_GLOB);// Push global table
 	LUA->CreateTable();
 	LUA->PushNumber(1);
 	LUA->SetField( -2, "version" );
@@ -72,7 +72,7 @@ GMOD_MODULE_OPEN()
 GMOD_MODULE_CLOSE()
 {
 	LUA->PushNil();
-	LUA->SetField( GarrysMod::Lua::INDEX_GLOBAL, "antifreeze" );
+	LUA->SetField( GarrysMod::Lua::SPECIAL_GLOB, "antifreeze" );
 	t1.join();
 	return 0;
 }
