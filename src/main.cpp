@@ -50,7 +50,7 @@ LUA_FUNCTION( SetTimeout )
 }
 GMOD_MODULE_OPEN()
 {
-	LUA->PushSpecial(GarrysMod::Lua::SPECIAL_GLOB);// Push global table
+	LUA->PushSpecial(GarrysMod::Lua::SPECIAL_GLOB);
 	LUA->CreateTable();
 	LUA->PushNumber(1);
 	LUA->SetField( -2, "version" );
