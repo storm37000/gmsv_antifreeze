@@ -43,7 +43,7 @@ LUA_FUNCTION( WatchDogStop )
 }
 LUA_FUNCTION( SetTimeout )
 {
-	killtime = static_cast<unsigned short>( LUA->CheckNumber( 1 ) )
+	killtime = static_cast<unsigned short>( LUA->CheckNumber( 1 ) );
 	return 0;
 }
 GMOD_MODULE_OPEN()
