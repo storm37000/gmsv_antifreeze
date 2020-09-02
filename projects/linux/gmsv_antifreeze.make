@@ -38,36 +38,34 @@ ifeq ($(config),release)
 TARGETDIR = bin/Release
 TARGET = $(TARGETDIR)/gmsv_antifreeze_linux.dll
 OBJDIR = obj/Release
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse3 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse3 -std=c++11 -fPIC
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse4.1 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse4.1 -std=c++11 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -flto -shared -Wl,-soname=gmsv_antifreeze_linux.dll -s -fPIC
 
 else ifeq ($(config),release64)
 TARGETDIR = bin/Release64
 TARGET = $(TARGETDIR)/gmsv_antifreeze_linux64.dll
 OBJDIR = obj/Release64
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse3 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse3 -std=c++11 -fPIC
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse4.1 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -flto -ffast-math -fomit-frame-pointer -O3 -fPIC -msse4.1 -std=c++11 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -flto -shared -Wl,-soname=gmsv_antifreeze_linux64.dll -s -fPIC
 
 else ifeq ($(config),debug)
 TARGETDIR = bin/Debug
 TARGET = $(TARGETDIR)/gmsv_antifreeze_linux.dll
 OBJDIR = obj/Debug
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -ffast-math -Og -fPIC -g -msse3 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -ffast-math -Og -fPIC -g -msse3 -std=c++11 -fPIC
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -ffast-math -Og -fPIC -g -msse4.1 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -ffast-math -Og -fPIC -g -msse4.1 -std=c++11 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -shared -Wl,-soname=gmsv_antifreeze_linux.dll -fPIC
 
 else ifeq ($(config),debug64)
 TARGETDIR = bin/Debug64
 TARGET = $(TARGETDIR)/gmsv_antifreeze_linux64.dll
 OBJDIR = obj/Debug64
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -Og -fPIC -g -msse3 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -Og -fPIC -g -msse3 -std=c++11 -fPIC
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -Og -fPIC -g -msse4.1 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -Og -fPIC -g -msse4.1 -std=c++11 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=gmsv_antifreeze_linux64.dll -fPIC
 
-else
-  $(error "invalid configuration $(config)")
 endif
 
 # Per File Configurations
@@ -77,8 +75,10 @@ endif
 # File sets
 # #############################################
 
+GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/main.o
 
 # Rules
@@ -87,7 +87,7 @@ OBJECTS += $(OBJDIR)/main.o
 all: $(TARGET)
 	@:
 
-$(TARGET): $(OBJECTS) $(LDDEPS) | $(TARGETDIR)
+$(TARGET): $(GENERATED) $(OBJECTS) $(LDDEPS) | $(TARGETDIR)
 	$(PRELINKCMDS)
 	@echo Linking gmsv_antifreeze
 	$(SILENT) $(LINKCMD)
@@ -113,9 +113,11 @@ clean:
 	@echo Cleaning gmsv_antifreeze
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
+	$(SILENT) rm -rf $(GENERATED)
 	$(SILENT) rm -rf $(OBJDIR)
 else
 	$(SILENT) if exist $(subst /,\\,$(TARGET)) del $(subst /,\\,$(TARGET))
+	$(SILENT) if exist $(subst /,\\,$(GENERATED)) rmdir /s /q $(subst /,\\,$(GENERATED))
 	$(SILENT) if exist $(subst /,\\,$(OBJDIR)) rmdir /s /q $(subst /,\\,$(OBJDIR))
 endif
 
