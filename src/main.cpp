@@ -12,6 +12,7 @@ std::atomic<unsigned short> killtime (60);
 void foo() 
 {
 	unsigned short timeout = 0;
+	std::cout << "Antifreeze: Watchdog starting up.\n";
 	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		if(srvrtime >= (std::time(nullptr))-2){
@@ -30,6 +31,7 @@ void foo()
 			}
 		}
 	}
+	std::cout << "Antifreeze: Watchdog shut down.\n";
 }
 std::thread t1(foo);
 LUA_FUNCTION( WatchDogPing )
