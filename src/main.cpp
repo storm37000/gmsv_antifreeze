@@ -2,19 +2,20 @@
 #include <ctime>
 #include <iostream>
 #include <thread>
-#include <exception>
+//#include <exception>
 #include <atomic>
 
 std::atomic<std::time_t> srvrtime (0);
 std::atomic<bool> flag (true);
 std::atomic<unsigned short> killtime (60);
 
-void foo() 
+void af_watchdog()
 {
 	unsigned short timeout = 0;
 	std::cout << "Antifreeze: Watchdog starting up.\n";
 	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
+		std::cout << "srvrtime (thread) is " << srvrtime << "\n";
 		if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
 				timeout = 0;
@@ -26,28 +27,31 @@ void foo()
 				std::cout << "Server is behind! (" << timeout << ")\n";
 				if(timeout == killtime){
 					std::cout << "Server Frozen! killing process...\n";
-					throw std::exception();
+					break;
+					//throw std::exception();
 				}
 			}
 		}
 	}
-	std::cout << "Antifreeze: Watchdog shut down.\n";
+	std::cout << "Antifreeze: Watchdog shut down. Please change map or restart server to start again if you wish.\n";
 }
-std::thread t1(foo);
+std::thread t1(af_watchdog);
+
+LUA_FUNCTION( SetTimeout )
+{
+	killtime = static_cast<unsigned short>(LUA->CheckNumber(1));
+	return 0;
+}
 LUA_FUNCTION( WatchDogPing )
 {
 	srvrtime = std::time(nullptr);
+	std::cout << "srvrtime (WatchDogPing) is " << srvrtime << "\n";
 	return 0;
 }
 LUA_FUNCTION( WatchDogStop )
 {
 	flag = false;
 	t1.join();
-	return 0;
-}
-LUA_FUNCTION( SetTimeout )
-{
-	killtime = static_cast<unsigned short>( LUA->CheckNumber( 1 ) );
 	return 0;
 }
 GMOD_MODULE_OPEN()
