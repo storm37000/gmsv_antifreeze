@@ -15,7 +15,7 @@ void af_watchdog()
 	std::cout << "Antifreeze: Watchdog starting up.\n";
 	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
-		std::cout << "srvrtime (thread) is " << srvrtime << "\n";
+//		std::cout << "srvrtime (thread) is " << srvrtime << "\n";
 		if(srvrtime == 0){
 			//do nothing
 		}else if(srvrtime >= (std::time(nullptr))-2){
@@ -44,7 +44,7 @@ LUA_FUNCTION( SetTimeout )
 LUA_FUNCTION( WatchDogPing )
 {
 	srvrtime = std::time(nullptr);
-	std::cout << "srvrtime (WatchDogPing) is " << srvrtime << "\n";
+//	std::cout << "srvrtime (WatchDogPing) is " << srvrtime << "\n";
 	return 0;
 }
 LUA_FUNCTION( WatchDogStop )
@@ -80,7 +80,5 @@ GMOD_MODULE_CLOSE()
 {
 	flag = false;
 	t1.join();
-//	LUA->PushNil();
-//	LUA->SetField( GarrysMod::Lua::SPECIAL_GLOB, "antifreeze" );
 	return 0;
 }
