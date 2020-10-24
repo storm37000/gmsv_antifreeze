@@ -16,19 +16,19 @@ void af_watchdog()
 	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		std::cout << "srvrtime (thread) is " << srvrtime << "\n";
-		if(srvrtime >= (std::time(nullptr))-2){
+		if(srvrtime == 0){
+			//do nothing
+		}else if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
 				timeout = 0;
 				std::cout << "Server caught back up!\n";
 			}
 		}else{
-			if(srvrtime != 0){
-				timeout++;
-				std::cout << "Server is behind! (" << timeout << ")\n";
-				if(timeout == killtime){
-					std::cout << "Server Frozen! killing process...\n";
-					throw std::exception();
-				}
+			timeout++;
+			std::cout << "Server is behind! (" << timeout << ")\n";
+			if(timeout == killtime){
+				std::cout << "Server Frozen! killing process...\n";
+				throw std::exception();
 			}
 		}
 	}
@@ -80,7 +80,7 @@ GMOD_MODULE_CLOSE()
 {
 	flag = false;
 	t1.join();
-	LUA->PushNil();
-	LUA->SetField( GarrysMod::Lua::SPECIAL_GLOB, "antifreeze" );
+//	LUA->PushNil();
+//	LUA->SetField( GarrysMod::Lua::SPECIAL_GLOB, "antifreeze" );
 	return 0;
 }
