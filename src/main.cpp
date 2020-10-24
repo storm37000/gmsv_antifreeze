@@ -2,7 +2,7 @@
 #include <ctime>
 #include <iostream>
 #include <thread>
-//#include <exception>
+#include <exception>
 #include <atomic>
 
 std::atomic<std::time_t> srvrtime (0);
@@ -27,13 +27,12 @@ void af_watchdog()
 				std::cout << "Server is behind! (" << timeout << ")\n";
 				if(timeout == killtime){
 					std::cout << "Server Frozen! killing process...\n";
-					break;
-					//throw std::exception();
+					throw std::exception();
 				}
 			}
 		}
 	}
-	std::cout << "Antifreeze: Watchdog shut down. Please change map or restart server to start again if you wish.\n";
+	std::cout << "Antifreeze: Watchdog shut down. Please change map or restart server to start it again if you wish.\n";
 }
 std::thread t1(af_watchdog);
 
