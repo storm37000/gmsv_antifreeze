@@ -3,21 +3,34 @@
 #include <iostream>
 #include <thread>
 #include <exception>
-#include <atomic>
+#ifdef WIN32
+	//do nothing here
+#else
+	#include <sys/prctl.h>
+#endif
 
-std::atomic<std::time_t> srvrtime (0);
-std::atomic<bool> flag (true);
-std::atomic<unsigned short> killtime (60);
+std::time_t srvrtime = 0;
+unsigned short killtime = 60;
+bool flag = true;
+bool restart = false;
 
 void af_watchdog()
 {
-	unsigned short timeout = 0;
+#ifdef WIN32
+	//do nothing here
+#else
+	prctl(PR_SET_NAME,"antifreeze\0",NULL,NULL,NULL);
+#endif
 	std::cout << "Antifreeze: Watchdog starting up.\n";
+	unsigned short timeout = 0;
 	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 //		std::cout << "srvrtime (thread) is " << srvrtime << "\n";
 		if(srvrtime == 0){
 			//do nothing
+		}else if(restart){
+				std::cout << "Manual restart requested, killing process...\n";
+				throw std::exception();
 		}else if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
 				timeout = 0;
@@ -36,6 +49,11 @@ void af_watchdog()
 }
 std::thread t1(af_watchdog);
 
+LUA_FUNCTION( RestartServer )
+{
+	restart = true;
+	return 0;
+}
 LUA_FUNCTION( SetTimeout )
 {
 	killtime = static_cast<unsigned short>(LUA->CheckNumber(1));
@@ -65,6 +83,8 @@ GMOD_MODULE_OPEN()
 	LUA->SetField( -2, "WatchdogStop" );
 	LUA->PushCFunction(SetTimeout);
 	LUA->SetField( -2, "SetTimeout" );
+	LUA->PushCFunction(RestartServer);
+	LUA->SetField( -2, "RestartServer" );
 	LUA->SetField( -2, "antifreeze" );
 	LUA->GetField(-1, "timer");
 	LUA->GetField(-1, "Create");
