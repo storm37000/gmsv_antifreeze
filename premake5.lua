@@ -13,8 +13,6 @@ project "gmsv_antifreeze"
 	targetextension ".dll"
 	staticruntime "Off"
 	floatingpoint "Fast"
-	buildoptions{ "-fPIC" }
-	linkoptions{ "-fPIC" }
 	files
 	{
 		"src/**.*",
