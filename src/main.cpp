@@ -3,9 +3,7 @@
 #include <iostream>
 #include <thread>
 #include <exception>
-#ifdef WIN32
-	//do nothing here
-#else
+#ifdef __linux__
 	#include <sys/prctl.h>
 #endif
 
@@ -16,9 +14,7 @@ bool restart = false;
 
 void af_watchdog()
 {
-#ifdef WIN32
-	//do nothing here
-#else
+#ifdef __linux__
 	prctl(PR_SET_NAME,"antifreeze\0",NULL,NULL,NULL);
 #endif
 	std::cout << "Antifreeze: Watchdog starting up.\n";
