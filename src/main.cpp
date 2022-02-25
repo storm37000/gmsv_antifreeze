@@ -17,7 +17,7 @@ void af_watchdog()
 #ifdef __linux__
 	prctl(PR_SET_NAME,"antifreeze\0",NULL,NULL,NULL);
 #endif
-	std::cout << "Antifreeze: Watchdog starting up.\n";
+	std::cout << "Antifreeze: Watchdog starting up." << std::endl;
 	unsigned short timeout = 0;
 	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -25,23 +25,23 @@ void af_watchdog()
 		if(srvrtime == 0){
 			//do nothing
 		}else if(restart){
-				std::cout << "Manual restart requested, killing process...\n";
+				std::cout << "Manual restart requested, killing process..." << std::endl;
 				throw std::exception();
 		}else if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
 				timeout = 0;
-				std::cout << "Server caught back up!\n";
+				std::cout << "Server caught back up!" << std::endl;
 			}
 		}else{
 			timeout++;
-			std::cout << "Server is behind! (" << timeout << ")\n";
+			std::cout << "Server is behind! (" << timeout << ")" << std::endl;
 			if(timeout == killtime){
-				std::cout << "Server Frozen! killing process...\n";
+				std::cout << "Server Frozen! killing process..." << std::endl;
 				throw std::exception();
 			}
 		}
 	}
-	std::cout << "Antifreeze: Watchdog shut down. Please change map or restart server to start it again if you wish.\n";
+	std::cout << "Antifreeze: Watchdog shut down. Please change map or restart server to start it again if you wish." << std::endl;
 }
 std::thread t1(af_watchdog);
 
