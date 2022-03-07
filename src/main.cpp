@@ -11,6 +11,7 @@ std::time_t srvrtime = 0;
 unsigned short killtime = 60;
 bool flag = true;
 bool restart = false;
+bool paused = false;
 
 void af_watchdog()
 {
@@ -22,11 +23,11 @@ void af_watchdog()
 	while(flag){
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 //		std::cout << "srvrtime (thread) is " << srvrtime << "\n";
-		if(srvrtime == 0){
+		if(srvrtime == 0 || paused){
 			//do nothing
 		}else if(restart){
 				std::cout << "Manual restart requested, killing process..." << std::endl;
-				throw std::exception();
+				exit(0);
 		}else if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
 				timeout = 0;
@@ -37,7 +38,8 @@ void af_watchdog()
 			std::cout << "Server is behind! (" << timeout << ")" << std::endl;
 			if(timeout == killtime){
 				std::cout << "Server Frozen! killing process..." << std::endl;
-				throw std::exception();
+				*( (int*) NULL ) = 0; //throw a segfault
+				//throw std::exception();
 			}
 		}
 	}
