@@ -69,6 +69,11 @@ LUA_FUNCTION( WatchDogStop )
 	t1.join();
 	return 0;
 }
+LUA_FUNCTION( WatchDogSetPaused )
+{
+	paused = LUA->CheckBool(1);
+	return 0;
+}
 GMOD_MODULE_OPEN()
 {
 	LUA->PushSpecial(GarrysMod::Lua::SPECIAL_GLOB);
@@ -83,6 +88,8 @@ GMOD_MODULE_OPEN()
 	LUA->SetField( -2, "SetTimeout" );
 	LUA->PushCFunction(RestartServer);
 	LUA->SetField( -2, "RestartServer" );
+	LUA->PushCFunction(WatchDogSetPaused);
+	LUA->SetField( -2, "WatchDogSetPaused" );
 	LUA->SetField( -2, "antifreeze" );
 	LUA->GetField(-1, "timer");
 	LUA->GetField(-1, "Create");
