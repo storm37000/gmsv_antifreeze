@@ -8,9 +8,10 @@ Click on releases and download the dll for your OS and bit of srcds that you are
 Dont forget to download and install the lua file from the zip or tar.gz file in the release.
 
 ## Use
-`antifreeze.SetTimeout(number)` sets the timeout that your server stays frozen before the watchdog kills the process.  This can be set at any time. <br>
-`antifreeze.WatchdogStop()` Kills the watchdog, can only be restarted by a map change or server restart. <br>
-`antifreeze.RestartServer()` Restarts/crashes your server.  Easy way in lua to preform a server restart.
+`antifreeze.SetTimeout(number)` [v1.2+] sets the timeout that your server stays frozen before the watchdog kills the process.  This can be set at any time. <br>
+`antifreeze.WatchdogStop()` [v1.0+] Kills the watchdog, can only be restarted by a map change or server restart. <br>
+`antifreeze.RestartServer()` [v1.3+] Restarts/crashes your server.  Easy way in lua to preform a server restart. <br>
+`antifreeze.WatchDogSetPaused(bool)` [v1.3+] Pauses the watchdog if true, unpauses if false.
 
 ## Compiling
 Compiling out of the box is only supported on appveyor. <br>
