@@ -71,7 +71,7 @@ LUA_FUNCTION( WatchDogStop )
 }
 LUA_FUNCTION( WatchDogSetPaused )
 {
-	paused = LUA->CheckBool(1);
+	paused = LUA->GetBool(1);
 	return 0;
 }
 GMOD_MODULE_OPEN()
