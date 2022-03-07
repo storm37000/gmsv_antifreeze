@@ -31,15 +31,19 @@ void af_watchdog()
 		}else if(srvrtime >= (std::time(nullptr))-2){
 			if (timeout != 0){
 				timeout = 0;
-				std::cout << "Server caught back up!" << std::endl;
+				std::cout << "Antifreeze: Server caught back up!" << std::endl;
 			}
 		}else{
 			timeout++;
-			std::cout << "Server is behind! (" << timeout << ")" << std::endl;
+			std::cout << "Antifreeze: Server is behind! (" << timeout << ")" << std::endl;
 			if(timeout == killtime){
-				std::cout << "Server Frozen! killing process..." << std::endl;
-				*( (int*) NULL ) = 0; //throw a segfault
-				//throw std::exception();
+				std::cout << "Antifreeze: Server Frozen! killing process..." << std::endl;
+				exit(139);
+			}
+			else if (timeout > killtime + 5)
+			{
+				std::cout << "Its not... its not shutting down!" << std::endl;
+				std::terminate();
 			}
 		}
 	}
