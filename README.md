@@ -4,6 +4,7 @@
 Automatically kill a frozen/locked up Garrysmod srcds instance.
 
 ## Installation
+**Requires c++ 2019 runtimes for windows and an in support version of Linux (Ubuntu 2004+ | Debian 10+)** <br>
 Click on releases and download the dll for your OS and bit of srcds that you are running. <br>
 Dont forget to download and install the lua file from the zip or tar.gz file in the release.
 
